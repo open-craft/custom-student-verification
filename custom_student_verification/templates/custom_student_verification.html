@@ -1,0 +1,14 @@
+{% if last_attempt_status == 'PENDING' %}
+<p>Your application is being processed, please check back later</p>
+{% elif last_attempt_status == 'ACCEPTED' %}
+<p>Your application is accepted!</p>
+{% else %}
+    {% if last_attempt_status == 'REJECTED' %}
+    <p>Your last application was rejected because: {{reason}} but you can apply again</p>
+    {% endif %}
+    <form method="post" action="{% url 'custom_student_verification_app:custom-student-verification' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="id_id_card">ID Card:</label> {{ form.id_photo }}
+        <input type="submit" value="Submit" />
+    </form>
+{% endif %}
