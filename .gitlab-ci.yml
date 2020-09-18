@@ -1,0 +1,50 @@
+image: python
+
+stages:
+  - test
+
+before_script:
+  - make requirements
+
+python3.5:
+  image: python:3.5
+  stage: test
+  script: tox -e "py{35}-django{22}"
+  cache:
+    key: python3.5
+    paths:
+      - .tox
+      - .cache/pip
+
+python3.8:
+  image: python:3.8
+  stage: test
+  script: tox -e "py{38}-django{22}"
+  cache:
+    key: python3.8
+    paths:
+      - .tox
+      - .cache/pip
+
+quality:
+  image: python:3.5
+  stage: test
+  script: tox -e quality
+  cache:
+    key: python3
+    paths:
+      - .tox
+      - .cache/pip
+    policy: pull
+
+pii_check:
+  image: python:3.5
+  stage: test
+  script: tox -e pii_check
+  cache:
+    key: python3
+    paths:
+      - .tox
+      - .cache/pip
+    policy: pull
+
