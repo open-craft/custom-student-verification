@@ -1,7 +1,9 @@
 custom_student_verification
 =============================
+.. image:: https://circleci.com/gh/open-craft/custom-student-verification.svg?style=svg
+    :target: https://circleci.com/gh/open-craft/custom-student-verification
 
-Custom Django app for student verification
+Custom Django app for student verification on Open edX.
 
 Overview
 --------
