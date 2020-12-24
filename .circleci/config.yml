@@ -1,0 +1,119 @@
+version: 2.1
+commands:
+  requirements:
+    parameters:
+      python_version:
+        type: "string"
+        default: "3.5"
+    steps:
+      - run:
+          name: Install virtualenv
+          command: sudo apt-get update && sudo apt-get -y -q install virtualenv
+      - run:
+          name: Create a virtualenv environment
+          command: "virtualenv -p python<<parameters.python_version>> venv"
+
+      - run:
+          name: Install requirements
+          command: ". venv/bin/activate && make requirements"
+
+jobs:
+  python35-quality:
+    docker:
+      - image: circleci/python:3.5
+    steps:
+      - checkout
+      - restore_cache:
+          keys: python3.5
+      - requirements
+      - run:
+          name: Run the code quality checks
+          command: "./venv/bin/tox -e quality"
+      - save_cache:
+          key: python3.5
+          paths:
+            - .tox
+            - /home/circleci/.cache/pip
+
+  python38-quality:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - restore_cache:
+          keys: python3.8
+      - requirements:
+          python_version: "3.8"
+      - run:
+          name: Run the code quality checks
+          command: "./venv/bin/tox -e quality"
+      - save_cache:
+          key: python3.8
+          paths:
+            - .tox
+            - /home/circleci/.cache/pip
+
+  python35:
+    docker:
+      - image: circleci/python:3.5
+    steps:
+      - checkout
+      - restore_cache:
+          keys: python3.5
+      - requirements
+      - run:
+          name: Run the tests using Python 3.5
+          command: './venv/bin/tox -e "py{35}-django{22}"'
+      - save_cache:
+          key: python3.5
+          paths:
+            - .tox
+            - /home/circleci/.cache/pip
+
+  python38:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - restore_cache:
+          keys: python3.8
+      - requirements:
+          python_version: "3.8"
+      - run:
+          name: Run the tests using Python 3.8
+          command: './venv/bin/tox -e "py{38}-django{22}"'
+      - save_cache:
+          key: python3.8
+          paths:
+            - .tox
+            - /home/circleci/.cache/pip
+  pii_check:
+    docker:
+      - image: circleci/python:3.5
+    steps:
+      - checkout
+      - restore_cache:
+          keys: python3.5
+      - requirements
+      - run:
+          name: Run the PII checks
+          command: "./venv/bin/tox -e pii_check"
+      - save_cache:
+          key: python3.5
+          paths:
+            - .tox
+            - /home/circleci/.cache/pip
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - python35-quality
+      - python38-quality
+      - python35:
+          requires:
+            - python35-quality
+      - python38:
+          requires:
+            - python38-quality
+      - pii_check
