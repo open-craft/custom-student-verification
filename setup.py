@@ -64,11 +64,11 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 setup(
     name='custom_student_verification_app',
     version=VERSION,
-    description="""Custom Student Verification app for KKUx""",
+    description="""Custom Student Verification app for Open edX""",
     long_description=README,
     author='OpenCraft',
     author_email='help@opencraft.com',
-    url='https://gitlab.com/opencraft/client/kkux/custom-student-verification',
+    url='https://github.com/open-craft/custom-student-verification',
     packages=find_packages(),
     include_package_data=True,
     install_requires=load_requirements('requirements/base.in'),
