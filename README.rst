@@ -10,6 +10,11 @@ Overview
 
 This app allows students to submit a Photo ID instead of using their webcam to prove their identity
 
+Usage
+-----
+
+See `Usage Instructions <doc/Usage.md>`_.
+
 License
 -------
 
