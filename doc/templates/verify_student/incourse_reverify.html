@@ -1,0 +1,35 @@
+<%page expression_filter="h"/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+%>
+<%namespace name='static' file='../static_content.html'/>
+
+<%inherit file="../main.html" />
+<%block name="bodyclass">register verification-process step-requirements</%block>
+
+<%block name="pagetitle">
+  ${_("Re-Verify for {course_name}").format(course_name=course_name)}
+</%block>
+
+<%block name="header_extras">
+    % for template_name in ["incourse_reverify", "webcam_photo", "image_input", "error"]:
+        <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="verify_student/${template_name}.underscore" />
+        </script>
+    % endfor
+</%block>
+<%block name="js_extra">
+  <script src="${static.url('js/src/tooltip_manager.js')}"></script>
+  <%static:js group='incourse_reverify'/>
+</%block>
+
+<%block name="content">
+## Top-level wrapper for errors
+## JavaScript views may append to this wrapper
+<div id="error-container" style="display: none;"></div>
+
+<div class="container">
+    <iframe src="${reverse('custom_student_verification_app:custom-student-verification')}" style="width:100%;height:100%;border: 0;"></iframe>
+  </div>
+</%block>

@@ -1,0 +1,60 @@
+<%page expression_filter="h"/>
+<%!
+import json
+from django.utils.translation import ugettext as _
+
+from openedx.core.djangolib.markup import HTML, Text
+from lms.djangoapps.verify_student.views import PayAndVerifyView
+from django.urls import reverse
+%>
+<%namespace name='static' file='../static_content.html'/>
+
+<%inherit file="../main.html" />
+<%block name="bodyclass">register verification-process step-requirements</%block>
+
+<%block name="pagetitle">
+  % if message_key == PayAndVerifyView.UPGRADE_MSG:
+    ${_("Upgrade Your Enrollment For {course_name}.").format(course_name=course.display_name)}
+  % elif message_key == PayAndVerifyView.PAYMENT_CONFIRMATION_MSG:
+    ${_("Receipt For {course_name}").format(course_name=course.display_name)}
+  % elif message_key in [PayAndVerifyView.VERIFY_NOW_MSG, PayAndVerifyView.VERIFY_LATER_MSG]:
+    ${_("Verify For {course_name}").format(course_name=course.display_name)}
+  % else:
+    ${_("Enroll In {course_name}").format(course_name=course.display_name)}
+  % endif
+</%block>
+
+<%block name="header_extras">
+    <%
+      template_names = (
+          ["webcam_photo", "image_input", "error"] +
+          ["intro_step", "payment_confirmation_step"] +
+          ["face_photo_step", "id_photo_step", "review_photos_step", "enrollment_confirmation_step"]
+      )
+
+      if not is_ab_testing:
+        template_names.append("make_payment_step")
+      else:
+        template_names.append("make_payment_step_ab_testing")
+
+    %>
+    % for template_name in template_names:
+        <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="verify_student/${template_name}.underscore" />
+        </script>
+    % endfor
+</%block>
+<%block name="js_extra">
+  <script src="${static.url('js/src/tooltip_manager.js')}"></script>
+  <%static:js group='verify_student'/>
+</%block>
+
+<%block name="content">
+## Top-level wrapper for errors
+## JavaScript views may append to this wrapper
+<div id="error-container" style="display: none;"></div>
+
+<div class="container">
+    <iframe src="${reverse('custom_student_verification_app:custom-student-verification')}" style="width:100%;height:100%;border: 0;"></iframe>
+  </div>
+</%block>

@@ -1,5 +1,16 @@
 # Using Custom Student Verification App
 
+## Theme Customization
+
+To use this app you need to customize/override some templates in your custom theme. To know more about edX comprehensive theming, [check here](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/ecommerce/theming.html).
+
+- ``lms/templates/verify_student/incourse_reverify.html``
+- ``lms/templates/verify_student/pay_and_verify.html``
+- ``lms/templates/verify_student/reverify_not_allowed.html``
+- ``lms/templates/verify_student/reverify.html``
+
+Override these templates by copying ``verify_student`` template directory to ``your-theme/lms/templates`` directory. Look at changes in ``content`` block from [these examples](templates/verify_student).
+
 ## Submitting Identification Document
 
 Once installed and enabled, learners should see the following identification document upload form when trying to verify themselves -
