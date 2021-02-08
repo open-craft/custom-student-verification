@@ -2,14 +2,52 @@
 
 ## Theme Customization
 
-To use this app you need to customize/override some templates in your custom theme. To know more about edX comprehensive theming, [check here](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/ecommerce/theming.html).
+To use this app you need to customize/override some templates in your custom theme. To know more about edX comprehensive theming, [check here](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/changing_appearance/theming/index.html).
 
-- ``lms/templates/verify_student/incourse_reverify.html``
-- ``lms/templates/verify_student/pay_and_verify.html``
-- ``lms/templates/verify_student/reverify_not_allowed.html``
-- ``lms/templates/verify_student/reverify.html``
+Copy following files -
+- ``lms/templates/verify_student/incourse_reverify.html`` to ``<YOUR-THEME>/lms/templates/verify_student/incourse_reverify.html``.
+- ``lms/templates/verify_student/pay_and_verify.html`` to ``<YOUR-THEME>/lms/templates/verify_student/pay_and_verify.html``.
+- ``lms/templates/verify_student/reverify.html`` to ``<YOUR-THEME>/lms/templates/verify_student/reverify.html``.
 
-Override these templates by copying ``verify_student`` template directory to ``your-theme/lms/templates`` directory. Look at changes in ``content`` block from [these examples](templates/verify_student).
+On the top of those files import ``reverse`` as it will be used later -
+```
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+%>
+```
+
+Then change the ``content`` block for each of those files as -
+```html
+
+<%block name="content">
+
+<div id="error-container" style="display: none;"></div>
+
+<div class="container">
+    <!-- This iframe will embed custom verification UI in LMS-->
+    <iframe src="${reverse('custom_student_verification_app:custom-student-verification')}" style="width:100%;height:100%;border: 0;"></iframe>
+
+</div>
+
+```
+
+
+Copy ``lms/templates/verify_student/reverify_not_allowed.html`` to ``<YOUR-THEME>/lms/templates/verify_student/reverify_not_allowed.html``. And, change the ``instructions`` section in the ``content`` block as following -
+
+```html
+<div class="instructions">
+    <p>
+        % if status is "approved":
+            ${_("Your Identity Verification has been approved.")}
+        % elif status is "pending":
+            ${_("You have already submitted your verification information. You will see a message on your dashboard when the verification process is complete (usually within 5-7 days).")}
+        % else:
+            ${_("You cannot verify your identity at this time.")}
+        % endif
+    </p>
+</div>
+```
 
 ## Submitting Identification Document
 
