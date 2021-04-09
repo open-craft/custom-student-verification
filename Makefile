@@ -70,11 +70,9 @@ selfcheck: ## check that the Makefile is well-formed
 
 extract_translations: ## extract strings to be translated, outputting .mo files
 	cd custom_student_verification && i18n_tool extract
-	# Combine the temporary translation files
-	msgcat $(ARABIC_TRANSLATIONS_DIR)/custom_student_verification*.po -o $(ARABIC_TRANSLATIONS_DIR)/django.po
 
 compile_translations: ## compile translation files, outputting .po files for each supported language
-	cd custom_student_verification && ../manage.py compilemessages
+	cd custom_student_verification && i18n_tool generate
 
 detect_changed_source_translations:
 	cd custom_student_verification && i18n_tool changed

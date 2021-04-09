@@ -4,9 +4,8 @@ custom_student_verification App certificate search API view.
 from __future__ import absolute_import, unicode_literals
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.middleware.csrf import get_token
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.generic import TemplateView
 from xblockutils.resources import ResourceLoader
@@ -41,14 +40,12 @@ class CustomStudentVerificationView(LoginRequiredMixin, TemplateView):
         form = UploadIDForm()
         last_attempt_status, reason = CustomStudentVerificationView.last_attempt_status(request.user)
         csrf_token = get_token(request)
-        return HttpResponse(
-            loader.render_django_template('templates/custom_student_verification.html', {
-                'form': form,
-                'last_attempt_status': last_attempt_status,
-                'reason': reason,
-                'csrf_token': csrf_token,
-            }), status=200
-        )
+        return render(request, 'custom_student_verification.html', {
+            'form': form,
+            'last_attempt_status': last_attempt_status,
+            'reason': reason,
+            'csrf_token': csrf_token,
+        })
 
     def post(self, request, *args, **kwargs):
         """
