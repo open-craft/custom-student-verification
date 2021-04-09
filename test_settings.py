@@ -45,3 +45,10 @@ ROOT_URLCONF = 'test_utils.urls'
 SECRET_KEY = 'insecure-secret-key'
 
 SITE_ID = 1
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
