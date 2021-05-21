@@ -10,6 +10,11 @@ Overview
 
 This app allows students to submit a Photo ID instead of using their webcam to prove their identity
 
+Compatibility
+-------------
+
+This app is compatible with `juniper` and `koa` releases of `Open edX`.
+
 Usage
 -----
 

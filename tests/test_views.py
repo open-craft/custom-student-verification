@@ -57,11 +57,14 @@ class CustomStudentVerificationGetTest(TestCase):
         self.assertRegex(html, r'<form .*>')
         [self.assertNotIn(keyword, html) for keyword in ['accepted', 'rejected', 'processed']]
 
-    def test_previously_rejected(self):
+    @patch('custom_student_verification.signals.reject_user')
+    def test_previously_rejected(self, mock_method):
         StudentVerificationRequest.objects.create(
             user=self.student,
             status='REJECTED'
         )
+
+        mock_method.assert_called_once_with(self.student, None)
 
         request = self.factory.get(
             reverse('custom_student_verification_app:custom-student-verification')
@@ -267,11 +270,14 @@ class CustomStudentVerificationPostTest(TestCase):
         self.assertIn('processed', html)
         [self.assertNotIn(keyword, html) for keyword in ['accepted', 'rejected']]
 
-    def test_previously_rejected(self):
+    @patch('custom_student_verification.signals.reject_user')
+    def test_previously_rejected(self, mock_method):
         StudentVerificationRequest.objects.create(
             user=self.student,
             status="REJECTED"
         )
+
+        mock_method.assert_called_once_with(self.student, None)
 
         request = self.factory.post(
             reverse('custom_student_verification_app:custom-student-verification')

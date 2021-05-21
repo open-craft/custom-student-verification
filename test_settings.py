@@ -31,6 +31,7 @@ DATABASES = {
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'custom_student_verification',
     'test_utils',
 )
@@ -43,3 +44,4 @@ ROOT_URLCONF = 'test_utils.urls'
 
 SECRET_KEY = 'insecure-secret-key'
 
+SITE_ID = 1
