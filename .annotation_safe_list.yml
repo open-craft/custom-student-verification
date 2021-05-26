@@ -17,3 +17,5 @@ auth.User:
   ".. pii_retirement:" : consumer_api
 contenttypes.ContentType:
   ".. no_pii:": "This model has no PII"
+sites.Site:
+  ".. no_pii:": "This model has no PII"
