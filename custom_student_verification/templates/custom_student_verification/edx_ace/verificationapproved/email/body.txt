@@ -1,0 +1,7 @@
+{% load i18n %}{% autoescape off %}
+{% blocktrans %}Hello {{full_name}}, {% endblocktrans %}
+{% blocktrans %}Your {{ platform_name }} ID verification photos have been approved.{% endblocktrans %}
+
+{% trans "Enjoy your studies," %}
+{% blocktrans %}The {{ platform_name }} Team {% endblocktrans %}
+{% endautoescape %}

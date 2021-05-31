@@ -1,12 +1,12 @@
 """
 Signal handler for setting manual student verification data.
 """
-
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from custom_student_verification.compat import get_manual_verification_model
 from custom_student_verification.models import StudentVerificationRequest
+from custom_student_verification.utils import send_verification_approved_email, send_verification_rejected_email
 
 
 @receiver(post_save, sender=StudentVerificationRequest)
@@ -18,6 +18,8 @@ def on_student_verification_request_saved(sender, instance, **kwargs):  # pylint
     """
     if instance.status == 'ACCEPTED':
         approve_user(instance.user, instance.reason)
+    elif instance.status == 'REJECTED':
+        reject_user(instance.user, instance.reason)
 
 
 def approve_user(user, reason):
@@ -34,3 +36,19 @@ def approve_user(user, reason):
             reason=reason if reason else 'N/A',
             name=user.profile.name
         )
+        # send an email to the user about verification approval.
+        send_verification_approved_email(user, reason)
+
+
+def reject_user(user, reason):
+    """
+    Handler for ID verifiation rejection.
+
+    Deletes the approved ManualVerification records for user and send an
+    email informing user of the verification request rejection.
+    """
+    ManualVerification = get_manual_verification_model()
+    # delete all approved ManualVerification records for user.
+    ManualVerification.objects.filter(user=user, status='approved').delete()
+    # send an email to the user about verification rejection.
+    send_verification_rejected_email(user, reason)

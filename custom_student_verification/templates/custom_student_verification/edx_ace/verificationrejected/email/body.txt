@@ -1,0 +1,9 @@
+{% load i18n %}{% autoescape off %}
+{% blocktrans %}Hello {{full_name}}, {% endblocktrans %}
+{% blocktrans %}Your {{ platform_name }} ID verification photos have been rejected.{% endblocktrans %}
+{% blocktrans %}Reason: {{ reason }}{% endblocktrans %}
+{% blocktrans %}Please apply again to get your ID verified.{% endblocktrans %}
+
+{% trans "Enjoy your studies," %}
+{% blocktrans %}The {{ platform_name }} Team {% endblocktrans %}
+{% endautoescape %}
