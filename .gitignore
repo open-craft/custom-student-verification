@@ -37,6 +37,9 @@ pii_report
 
 # Translations
 *.mo
+*.po
+!django.mo
+!django.po
 
 # IDEs and text editors
 *~

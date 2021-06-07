@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-18 14:18+0530\n"
+"POT-Creation-Date: 2021-04-09 08:11+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,9 +15,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. Translators: Dummy text to have translation machinery generate the .po
-#. files
-#: views.py
-msgid "Dummy text"
+#: templates/custom_student_verification.html
+msgid "Your application is being processed, please check back later"
+msgstr ""
+
+#: templates/custom_student_verification.html
+msgid "Your application is accepted!"
+msgstr ""
+
+#: templates/custom_student_verification.html
+#, python-format
+msgid ""
+"Your last application was rejected because: %(reason)s but you can apply "
+"again"
+msgstr ""
+
+#: templates/custom_student_verification.html
+msgid "ID Card:"
+msgstr ""
+
+#: templates/custom_student_verification.html
+msgid "Submit"
 msgstr ""
