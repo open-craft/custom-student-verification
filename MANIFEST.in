@@ -3,4 +3,4 @@ include CONTRIBUTING.rst
 include LICENSE.txt
 include README.rst
 include requirements/base.in
-recursive-include custom_student_verification *.html *.png *.gif *js *.css *jpg *jpeg *svg *py
+recursive-include custom_student_verification *.html *.png *.gif *js *.css *jpg *jpeg *svg *py *txt
