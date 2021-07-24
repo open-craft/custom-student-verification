@@ -1,10 +1,12 @@
 """
 Signal handler for setting manual student verification data.
 """
+
+from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from custom_student_verification.compat import get_manual_verification_model
+from custom_student_verification.compat import get_manual_verification_model, get_course_enrollment_model, get_course_mode_model
 from custom_student_verification.models import StudentVerificationRequest
 from custom_student_verification.utils import send_verification_approved_email, send_verification_rejected_email
 
@@ -52,3 +54,15 @@ def reject_user(user, reason):
     ManualVerification.objects.filter(user=user, status='approved').delete()
     # send an email to the user about verification rejection.
     send_verification_rejected_email(user, reason)
+
+
+@receiver(post_save, sender=get_course_enrollment_model())
+def auto_verify_paid_students(sender, instance, created, **kwargs):  # pylint: disable=unused-argument
+    """
+    Signal helps to auto-verify student who are paying for the course.
+    This signal will only take effect when the switch is enabled.
+    """
+    course_mode = get_course_mode_model()
+    if settings.FEATURES.get('ENABLE_PAID_COURSE_AUTO_VERIFY'):
+        if instance.mode == course_mode.VERIFIED:
+            approve_user(instance.user, 'auto-verification')
