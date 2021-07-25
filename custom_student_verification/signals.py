@@ -6,7 +6,11 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from custom_student_verification.compat import get_manual_verification_model, get_course_enrollment_model, get_course_mode_model
+from custom_student_verification.compat import (
+    get_course_enrollment_model,
+    get_course_mode_model,
+    get_manual_verification_model,
+)
 from custom_student_verification.models import StudentVerificationRequest
 from custom_student_verification.utils import send_verification_approved_email, send_verification_rejected_email
 
