@@ -63,6 +63,8 @@ def reject_user(user, reason):
 @receiver(post_save, sender=get_course_enrollment_model())
 def auto_verify_paid_students(sender, instance, created, **kwargs):  # pylint: disable=unused-argument
     """
+    Veriy the learner who paid for the course.
+
     Signal helps to auto-verify student who are paying for the course.
     This signal will only take effect when the switch is enabled.
     """
