@@ -67,3 +67,25 @@ def get_base_message_type():
     except ImportError:
         from edx_ace.message import MessageType
         return MessageType
+
+
+def get_course_enrollment_model():
+    """
+    Get CourseEnrollment model.
+    """
+    try:
+        from common.djangoapps.student.models import CourseEnrollment
+        return CourseEnrollment
+    except ImportError:
+        return object
+
+
+def get_course_mode_model():
+    """
+    Get CourseMode model.
+    """
+    try:
+        from common.djangoapps.course_modes.models import CourseMode
+        return CourseMode
+    except ImportError:
+        return object
