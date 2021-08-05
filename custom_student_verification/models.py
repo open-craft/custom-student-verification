@@ -30,4 +30,5 @@ class StudentVerificationRequest(models.Model):
         """
         Return <img> tag with SRC set as the photo ID provided by the student.
         """
-        return mark_safe('<img src="%s" style="max-height:15rem;" />' % self.id_photo.url)
+        if self.id_photo:
+            return mark_safe('<img src="%s" style="max-height:15rem;" />' % self.id_photo.url)
