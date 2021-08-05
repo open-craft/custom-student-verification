@@ -32,3 +32,4 @@ class StudentVerificationRequest(models.Model):
         """
         if self.id_photo:
             return mark_safe('<img src="%s" style="max-height:15rem;" />' % self.id_photo.url)
+        return ""
