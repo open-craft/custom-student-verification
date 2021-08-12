@@ -18,7 +18,7 @@ class StudentVerificationRequestAdmin(admin.ModelAdmin):
     list_display = ('name', 'photo_id_tag', 'id_photo', 'status', 'time_created', 'time_modified')
     readonly_fields = ('name', 'user', 'photo_id_tag', 'id_photo', 'time_created', 'time_modified')
     list_filter = ('status',)
-    actions = ['mark_student_verification_requests_as_accepted']
+    actions = ['bulk_approve']
 
     def name(self, obj):
         """
@@ -52,6 +52,8 @@ class StudentVerificationRequestAdmin(admin.ModelAdmin):
                 record.save()
                 successfully_updated_counter += 1
             except IntegrityError as e:
+                # In case Integrity error is raised on model's save() method, logs the error, increases the number
+                # of failed operations and lets the action update the rest of records
                 logging.log(logging.ERROR, e)
                 failed_to_update_counter += 1
         return successfully_updated_counter, failed_to_update_counter
@@ -80,7 +82,7 @@ class StudentVerificationRequestAdmin(admin.ModelAdmin):
                 messages.ERROR
             )
 
-    def mark_student_verification_requests_as_accepted(self, request, queryset):
+    def bulk_approve(self, request, queryset):
         """
         Django admin action that change selected student verification requests status to ACCEPTED.
         """
@@ -92,8 +94,7 @@ class StudentVerificationRequestAdmin(admin.ModelAdmin):
         )
         self.show_results_to_admin_user(request, successfully_updated, failed_to_update)
 
-    mark_student_verification_requests_as_accepted.short_description = \
-        'Mark selected student verification requests as ACCEPTED'
+    bulk_approve.short_description = 'Mark selected student verification requests as ACCEPTED'
 
 
 admin.site.register(StudentVerificationRequest, StudentVerificationRequestAdmin)
