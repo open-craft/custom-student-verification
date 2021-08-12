@@ -42,7 +42,7 @@ class StudentVerificationRequestAdmin(admin.ModelAdmin):
 
     def update_fields_for_queryset(self, queryset, field, value):
         """
-        Given a queryset, this method will update and save a field with a new value on all its records or rows
+        Given a queryset, this method will update and save a field with a new value on all its records or rows.
         """
         successfully_updated_counter = 0
         failed_to_update_counter = 0
@@ -58,7 +58,7 @@ class StudentVerificationRequestAdmin(admin.ModelAdmin):
 
     def show_results_to_admin_user(self, request, successfully_updated, failed_to_update):
         """
-        Send message to admin view so admin user can visualize if action have run without problem
+        Send message to admin view so admin user can visualize if action have run without problem.
         """
         self.message_user(
             request,
@@ -82,7 +82,7 @@ class StudentVerificationRequestAdmin(admin.ModelAdmin):
 
     def mark_student_verification_requests_as_accepted(self, request, queryset):
         """
-        Django admin action that change selected student verification requests status to ACCEPTED
+        Django admin action that change selected student verification requests status to ACCEPTED.
         """
         accepted_status = 'ACCEPTED'
         successfully_updated, failed_to_update = self.update_fields_for_queryset(
