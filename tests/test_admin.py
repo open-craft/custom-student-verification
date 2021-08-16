@@ -1,5 +1,5 @@
 """
-Tests for signal receivers of custom_verification_app.
+Tests for implemented django admin features
 """
 from unittest.mock import MagicMock, Mock, patch
 
