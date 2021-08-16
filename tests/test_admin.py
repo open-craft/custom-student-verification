@@ -3,59 +3,49 @@ Tests for signal receivers of custom_verification_app.
 """
 from unittest.mock import MagicMock, Mock, patch
 
-from django.contrib.auth.models import User
+import ddt
 from django.contrib.admin.sites import AdminSite
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.test import TestCase
-from custom_student_verification.admin import StudentVerificationRequestAdmin
 
+from custom_student_verification.admin import StudentVerificationRequestAdmin
 from custom_student_verification.models import StudentVerificationRequest
 
 
+def get_item_that_throws_integrity_error_on_save():
+    """
+    Returns a mocked element that on save method call will throw an IntegrityError exception
+    """
+    mocked_item = Mock()
+    mocked_item.save.side_effect = IntegrityError
+    return mocked_item
+
+
+@ddt.ddt
 class StudentVerificationRequestAdminTest(TestCase):
+    """
+    Tests for StudentVerificationRequestAdmin features
+    """
     def setUp(self) -> None:
         self.user = User.objects.create(username="testuser", email="test@example.clm")
         self.user.profile = MagicMock()
         self.user.profile.name.return_value = "Test User"
         return super().setUp()
 
-    @patch('custom_student_verification.signals.reject_user')
-    @patch('custom_student_verification.signals.approve_user')
-    def test_update_fields_in_queryset_successfully(self, mock_reject_method, mock_approve_method):
-        expected_successfully_updates = 3
-        expected_failed_updates = 0
-
-        StudentVerificationRequest.objects.create(
-            user=self.user,
-            status="PENDING",
-        )
-        StudentVerificationRequest.objects.create(
-            user=self.user,
-            status="PENDING"
-        )
-        StudentVerificationRequest.objects.create(
-            user=self.user,
-            status='REJECTED'
-        )
-
-        admin_site = StudentVerificationRequestAdmin(admin_site=AdminSite, model=StudentVerificationRequest)
-        successfully_updated, failed_to_update = admin_site.update_fields_for_queryset(
-            StudentVerificationRequest.objects.all(), 'status', 'ACCEPTED',
-        )
-
-        self.assertEqual(successfully_updated, expected_successfully_updates)
-        self.assertEqual(failed_to_update, expected_failed_updates)
-
-    def test_update_fields_in_queryset_and_some_updates_fail(self):
-        expected_successfully_updates = 2
-        expected_failed_updates = 1
-
+    @ddt.data(
+        ([Mock(), get_item_that_throws_integrity_error_on_save(), Mock()], 2, 1),
+        ([Mock(), Mock(), Mock()], 3, 0)
+    )
+    @ddt.unpack
+    def test_update_fields_in_queryset_and_some_updates_fail(
+            self, queryset_items, expected_successfully_updates, expected_failed_updates
+    ):
+        """
+        Test that save method is called on each element of queryset, and that counters for successful updates
+        and failed ones, have the right results
+        """
         queryset = MagicMock()
-        item_success_1 = Mock()
-        item_to_fail = Mock()
-        item_success_2 = Mock()
-        item_to_fail.save.side_effect = IntegrityError
-        queryset_items = [item_success_1, item_to_fail, item_success_2]
         queryset.__iter__.return_value = iter(queryset_items)
         admin_site = StudentVerificationRequestAdmin(admin_site=AdminSite, model=StudentVerificationRequest)
 
@@ -73,7 +63,12 @@ class StudentVerificationRequestAdminTest(TestCase):
 
     @patch('custom_student_verification.signals.reject_user')
     @patch('custom_student_verification.signals.approve_user')
-    def test_bulk_approve_multiple_verification_requests(self, mock_reject_method, mock_approve_method):
+    def test_bulk_approve_multiple_verification_requests(
+            self, mock_reject_method, mock_approve_method
+    ):  # pylint: disable=unused-argument
+        """
+        Test bulk_approve set correctly the status of multiple verification requests to ACCEPTED
+        """
         expected_accepted_verification_requests = 4
         expected_rejected_verification_requests = 0
         expected_pending_verification_requests = 0
