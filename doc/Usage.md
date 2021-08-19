@@ -25,6 +25,20 @@ Then, they can approve or reject any request from the edit view -
 
 ![Accept or Reject Request](img/accept-reject-request.png)
 
+### Approve multiple Verification Requests
+You can approve multiple verification requests from the list of verification requests,
+all you have to do is, select from the list the verification requests you want to approve
+and in the Action combobox choose `Mark selected student verification requests as ACCEPTED`, and click Go.
+
+![Accept multiple verification requests](img/bulk_approve.png)
+
+After it approves all the selected verification requests it will display a message with the number of
+correctly approved requests and failed ones(in case there were integrity issues).
+
+![Successfully approved requests](img/successful_bulk_approve.png)
+
+![Successful and failed approved requests](img/successful_and_failed_bulk_approve.png)
+
 
 ## Theme Customization
 
