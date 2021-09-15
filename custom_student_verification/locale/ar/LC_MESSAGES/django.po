@@ -19,23 +19,23 @@ msgstr ""
 
 #: templates/custom_student_verification.html
 msgid "Your application is being processed, please check back later"
-msgstr ""
+msgstr "تم تقديم طلبك بنجاح، سيتم مراجعته والتحقق منه قريبًا."
 
 #: templates/custom_student_verification.html
 msgid "Your application is accepted!"
-msgstr ""
+msgstr "تم التحقق من طلبك!"
 
 #: templates/custom_student_verification.html
 #, python-format
 msgid ""
 "Your last application was rejected because: %(reason)s but you can apply "
 "again"
-msgstr ""
+msgstr "تم رفض طلب التحقق للأسباب: %(reason) لكن لايزال بإمكانكم إرسال طلب تحقق جديد"
 
 #: templates/custom_student_verification.html
 msgid "ID Card:"
-msgstr ""
+msgstr "بطاقة الهوية"
 
 #: templates/custom_student_verification.html
 msgid "Submit"
-msgstr ""
+msgstr "إرسال"
