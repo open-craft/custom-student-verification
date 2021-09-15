@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-09 08:11+0600\n"
+"POT-Creation-Date: 2021-09-15 14:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.py
+#, python-format
+msgid " %d Student verification request has been successfully updated"
+msgid_plural ""
+" %d Student verification requests have been successfully updated"
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin.py
+#, python-format
+msgid " %d Student verification request has failed to update"
+msgid_plural " %d Student verification requests have failed to update"
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/custom_student_verification.html
 msgid "Your application is being processed, please check back later"
@@ -38,4 +53,76 @@ msgstr ""
 
 #: templates/custom_student_verification.html
 msgid "Submit"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.html
+msgid "ID Verification Approved"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.html
+#, python-format
+msgid "Hello %(full_name)s,"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.txt
+#, python-format
+msgid "Your %(platform_name)s ID verification photos have been approved."
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.txt
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.txt
+msgid "Enjoy your studies,"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.txt
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.txt
+#, python-format
+msgid "The %(platform_name)s Team "
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/body.txt
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.txt
+#, python-format
+msgid "Hello %(full_name)s, "
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationapproved/email/subject.txt
+#, python-format
+msgid "Your %(platform_name)s ID verification was approved!"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.html
+msgid "ID Verification Rejected"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.txt
+#, python-format
+msgid "Your %(platform_name)s ID verification photos have been rejected."
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.html
+#, python-format
+msgid " Reason: %(reason)s"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.html
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.txt
+msgid "Please apply again to get your ID verified."
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/body.txt
+#, python-format
+msgid "Reason: %(reason)s"
+msgstr ""
+
+#: templates/custom_student_verification/edx_ace/verificationrejected/email/subject.txt
+#, python-format
+msgid "Your %(platform_name)s ID verification was rejected!"
 msgstr ""

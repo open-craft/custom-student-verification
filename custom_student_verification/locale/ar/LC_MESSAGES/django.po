@@ -30,7 +30,7 @@ msgstr "تم التحقق من طلبك!"
 msgid ""
 "Your last application was rejected because: %(reason)s but you can apply "
 "again"
-msgstr "تم رفض طلب التحقق للأسباب: %(reason) لكن لايزال بإمكانكم إرسال طلب تحقق جديد"
+msgstr "تم رفض طلب التحقق للأسباب: %(reason)s لكن لايزال بإمكانكم إرسال طلب تحقق جديد"
 
 #: templates/custom_student_verification.html
 msgid "ID Card:"
