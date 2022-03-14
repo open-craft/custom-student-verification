@@ -4,4 +4,4 @@
 Django
 djangorestframework
 xblock-utils
-edx-ace<1
+edx-ace==1.1.0
