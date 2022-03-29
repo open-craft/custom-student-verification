@@ -70,5 +70,5 @@ def auto_verify_paid_students(sender, instance, created, **kwargs):  # pylint: d
     """
     course_mode = get_course_mode_model()
     if settings.FEATURES.get('ENABLE_PAID_COURSE_AUTO_VERIFY'):
-        if instance.mode == course_mode.VERIFIED:
+        if instance.mode == course_mode.VERIFIED or instance.mode == course_mode.MASTERS:
             approve_user(instance.user, 'auto-verification')
