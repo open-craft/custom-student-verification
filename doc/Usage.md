@@ -93,3 +93,7 @@ Copy ``lms/templates/verify_student/reverify_not_allowed.html`` from the `edx-pl
 
 If we set `ENABLE_PAID_COURSE_AUTO_VERIFY` to `True` in `/edx/etc/lms.yml`, this will automatically verify a user if they are enrolled
 in any paid courses.
+
+## Disable Email Notification
+
+Set `DISABLE_VERIFICATION_EMAIL_NOTIFICATION` to `True` under `FEATURES` option in `/edx/etc/lms.yml` to disable sending email notification to users on approval or rejection. This defaults to `False` so it doesn't break existing flow.
