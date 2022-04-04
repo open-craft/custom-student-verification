@@ -42,8 +42,9 @@ def approve_user(user, reason):
             reason=reason if reason else 'N/A',
             name=user.profile.name
         )
-        # send an email to the user about verification approval.
-        send_verification_approved_email(user, reason)
+        if not settings.FEATURES.get('DISABLE_VERIFICATION_EMAIL_NOTIFICATION'):
+            # send an email to the user about verification approval.
+            send_verification_approved_email(user, reason)
 
 
 def reject_user(user, reason):
@@ -56,8 +57,9 @@ def reject_user(user, reason):
     ManualVerification = get_manual_verification_model()
     # delete all approved ManualVerification records for user.
     ManualVerification.objects.filter(user=user, status='approved').delete()
-    # send an email to the user about verification rejection.
-    send_verification_rejected_email(user, reason)
+    if not settings.FEATURES.get('DISABLE_VERIFICATION_EMAIL_NOTIFICATION'):
+        # send an email to the user about verification rejection.
+        send_verification_rejected_email(user, reason)
 
 
 @receiver(post_save, sender=get_course_enrollment_model())
@@ -70,5 +72,5 @@ def auto_verify_paid_students(sender, instance, created, **kwargs):  # pylint: d
     """
     course_mode = get_course_mode_model()
     if settings.FEATURES.get('ENABLE_PAID_COURSE_AUTO_VERIFY'):
-        if instance.mode == course_mode.VERIFIED:
+        if instance.mode == course_mode.VERIFIED or instance.mode == course_mode.MASTERS:
             approve_user(instance.user, 'auto-verification')

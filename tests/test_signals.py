@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from custom_student_verification.models import StudentVerificationRequest
 
@@ -52,3 +53,20 @@ class VerificationSignalTestCase(TestCase):
         self.verification_request.reason = "Reason for accepting"
         self.verification_request.save()
         mock_email.assert_called_with(self.user, "Reason for accepting")
+
+    @override_settings(FEATURES={'DISABLE_VERIFICATION_EMAIL_NOTIFICATION': True})
+    @patch('custom_student_verification.signals.get_manual_verification_model')
+    @patch('custom_student_verification.signals.send_verification_approved_email')
+    def test_disable_email_notification(self, mock_email, mock_model_method):
+        """
+        Test that the feature flag disables sending email notification on approval or rejection
+        """
+        mock_manual_verification_model = MagicMock()
+        mock_model_method.return_value = mock_manual_verification_model
+        mock_manual_verification_model.objects.filter().exists.return_value = False
+
+        self.verification_request.status = "ACCEPTED"
+        self.verification_request.reason = "Reason for accepting"
+        self.verification_request.save()
+
+        mock_email.assert_not_called()

@@ -28,6 +28,10 @@ DATABASES = {
     }
 }
 
+FEATURES = {
+    'DISABLE_VERIFICATION_EMAIL_NOTIFICATION': False,
+}
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
